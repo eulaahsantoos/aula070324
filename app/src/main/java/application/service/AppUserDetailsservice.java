@@ -2,14 +2,14 @@ package application.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsservice;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException; import org.springframework.stereotype. Service;
 
 import application.model.User;
 import application.repository.UserRepository;
 
 @Service
-public class AppUserDetailsService implements UserDetailsService {
+public class AppUserDetailsservice implements UserDetailsService {
     @Autowired
     private UserRepository userRepo;
 

@@ -1,31 +1,29 @@
-package application.service;
+package application.confg;
  
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
  
-import application.model.User;
-import application.repository. UserRepository;
+@Configuration
+@EnableWebSecurity
+public class securityconfg {
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf().disable()
+            .authorizeHttpRequests()
+            .anyRequest().authenticated();
+        http
+            .formLogin();
  
-@Service
-public class AppUserDetailsService implements UserDetailsService {
-    @Autowired
-    private UserRepository userRepo;
- 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepo.findByUsername(username);
-        if(user == null){
-            throw new UsernameNotFoundException("Usuário Não Encontrado");
-        }
-        UserDetails userDetails =
-                org.springframework.security.core.userdetails.User.builder()
-                        .username (user.getUsername())
-                        .password(user.getPassword())
-                        .roles ("USER")
-                        .build();
-        return userDetails;
+        return http.build();
     }
-}
+ 
+    @SuppressWarnings("deprecation")
+    @Bean
+    public NoOpPasswordEncoder passwordEncoder() {
+        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
+}}
